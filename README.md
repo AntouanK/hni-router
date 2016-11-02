@@ -4,6 +4,12 @@ A simple `nginx` router and a docker-compose file, to help run the hni project.
 
 ## Usage
 First build images of the other components.
+
+Components used:
+- hni-feed https://github.com/AntouanK/hni-feed , to listen to the HN API and feed data to RethinkDB
+- hni-api https://github.com/AntouanK/hni-api , to expose a GraphQL interface, and a websocket, to consume the data from the database
+- hni-ui https://github.com/AntouanK/hni-ui , the React-based front-end
+
 Example to run in  a terminal:
 ```shell
 # let's go to an empty directory
