@@ -1,6 +1,6 @@
 # hni-router
 
-A simple `nginx` router and a docker-compose file, to help run the hni project.
+A simple `nginx` router and a docker-compose file, to help run the hni project ( the code behind https://hack.ernews.info ).
 
 ## Usage
 First build images of the other components.
