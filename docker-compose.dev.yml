@@ -1,0 +1,66 @@
+
+
+
+# top-level NGINX proxy
+nginx:
+  image: nginx
+  mem_limit: 512m
+  ports:
+    - 8080:80
+  links:
+    - hni-api
+    - hni-db_master
+  privileged: true
+  volumes_from:
+    - hni-ui:ro
+  volumes:
+    - ./nginx/log:/var/log/nginx
+    - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    # mount the UI folder from the hni-ui repo
+    - ../hni-ui/static:/home/docker/workplace/static
+
+
+# # node service to serve the UI
+# hni-ui:
+#   image: antouank/hni-ui
+#   mem_limit: 512m
+#   volumes:
+#     - /home/docker/workplace/static
+#   command: /bin/echo 'start dummy ui container'
+
+
+# node service to serve the data
+hni-api:
+  image: antouank/hni-api
+  mem_limit: 512m
+  restart: always
+  links:
+    - hni-db_master
+  environment:
+    NODE_ENV: 'production'
+    HNI_DB_HOST:  'hni-db_master'
+    HNI_DB_PORT:  '28015'
+    HNI_DB_NAME:  'hn'
+
+# node service to hook the HN feed to the DB
+hni-feed:
+  image: antouank/hni-feed
+  mem_limit: 1024m
+  links:
+    - hni-db_master
+  environment:
+    NODE_ENV: 'production'
+    HNI_DB_HOST:  'hni-db_master'
+    HNI_DB_PORT:  '28015'
+    HNI_DB_NAME:  'hn'
+
+
+# rethinkdb  Master
+hni-db_master:
+  image: rethinkdb
+  command: rethinkdb --bind all
+  mem_limit: 4096m
+  volumes:
+    - ./hni-db/_db/hni-db_master:/data
+
+
