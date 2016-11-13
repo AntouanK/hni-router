@@ -11,20 +11,20 @@ nginx:
     - hni-api
     - hni-db_master
   privileged: true
-  volumes_from:
-    - hni-ui:ro
   volumes:
     - ./nginx/log:/var/log/nginx
     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    # mount the UI folder from the hni-ui repo
+    - ../hni-ui/static:/home/docker/workplace/static
 
 
-# node service to serve the UI
-hni-ui:
-  image: antouank/hni-ui
-  mem_limit: 512m
-  volumes:
-    - /home/docker/workplace/static
-  command: /bin/echo 'start dummy ui container'
+# # node service to serve the UI
+# hni-ui:
+#   image: antouank/hni-ui
+#   mem_limit: 512m
+#   volumes:
+#     - /home/docker/workplace/static
+#   command: /bin/echo 'start dummy ui container'
 
 
 # node service to serve the data
