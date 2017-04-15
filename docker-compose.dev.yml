@@ -1,6 +1,4 @@
 
-
-
 # top-level NGINX proxy
 nginx:
   image: nginx
@@ -11,20 +9,11 @@ nginx:
     - hni-api
     - hni-db_master
   privileged: true
-  volumes_from:
-    - hni-ui:ro
   volumes:
     - ./nginx/log:/var/log/nginx
     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    - ../hni-ui/dist:/home/docker/workplace/dist
 
-
-# node service to serve the UI
-hni-ui:
-  image: antouank/hni-ui
-  mem_limit: 512m
-  volumes:
-    - /home/docker/workplace/dist
-  command: /bin/echo 'start dummy ui container'
 
 
 # node service to serve the data
