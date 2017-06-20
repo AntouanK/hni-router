@@ -2,7 +2,7 @@
 
 
 # top-level NGINX proxy
-nginx:
+router:
   image: nginx
   mem_limit: 512m
   ports:
